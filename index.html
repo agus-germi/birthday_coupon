@@ -312,7 +312,7 @@
                   </span>
               </label>
           </div>
-          <button onclick="sendToWhatsApp()" class="btn">¡Confirmar Fecha! ✨</button>
+          <button onclick="sendEmail()" class="btn">¡Confirmar Fecha! ✨</button>
       </div>
 
       <a href="#" class="btn" id="boton_fecha" onclick="showDatePicker()">✨ ¡Reclamá tu Sorpresa! ✨</a>
@@ -355,9 +355,7 @@
         isMusicPlaying = !isMusicPlaying;
     });
 
-    // Intento inicial de reproducción automática
     window.addEventListener('DOMContentLoaded', function() {
-        // Intentar reproducir automáticamente
         music.play()
             .then(() => {
                 musicIcon.textContent = '🔊';
@@ -375,18 +373,12 @@
         document.getElementById('dateSelection').classList.remove('hidden');
     }
 
-    function sendToWhatsApp() {
+    function sendEmail() {
         const selectedRadio = document.querySelector('input[name="selectedDate"]:checked');
         if (!selectedRadio) {
             alert('Por favor seleccioná una fecha');
             return;
         }
-
-        // Lista de números de WhatsApp 
-        const celulares = [
-            '5491139342376', 
-            '5491159395518'
-        ];
 
         const selectedDate = new Date(selectedRadio.value);
         const formattedDate = selectedDate.toLocaleDateString('es-AR', {
@@ -396,16 +388,21 @@
             day: 'numeric'
         });
 
-        const message = `¡Fecha confirmada para la cena sorpresa! 🎉\n\nFecha elegida: ${formattedDate}\n\n¿Podés ese día? 😊`;
+        const emails = [
+            'agustina.germinario@gmail.com',
+            'agerminario@fi.uba.ar'
+        ].join(',');
 
-        // Enviar mensaje a cada número
-        celulares.forEach((number, index) => {
-            // Pequeño delay entre cada apertura para evitar bloqueos del navegador
-            setTimeout(() => {
-                const whatsappLink = `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
-                window.open(whatsappLink, '_blank');
-            }, index * 1000); // 1 segundo de delay entre cada mensaje
-        });
+        const subject = '¡Fecha confirmada para la cena sorpresa! 🎉';
+        const body = `¡Fecha elegida para la cena sorpresa!
+
+Fecha seleccionada: ${formattedDate}
+Hora: 20:00 hs
+
+¿Podés ese día? 😊`;
+
+        const mailtoLink = `mailto:${emails}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.location.href = mailtoLink;
     }
   </script>
 </body>
