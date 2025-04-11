@@ -368,16 +368,7 @@
             });
     });
 
-    // También intentar reproducir con cualquier interacción del usuario
-    document.addEventListener('click', function() {
-        if (!isMusicPlaying) {
-            music.play()
-                .then(() => {
-                    musicIcon.textContent = '🔊';
-                    isMusicPlaying = true;
-                });
-        }
-    }, { once: true });
+
 
     function showDatePicker() {
         document.getElementById('boton_fecha').style.display = 'none';
@@ -391,9 +382,10 @@
             return;
         }
 
-        // Lista de números de WhatsApp (agregar código de país)
+        // Lista de números de WhatsApp 
         const celulares = [
-            '5491139342376'
+            '5491139342376', 
+            '5491159395518'
         ];
 
         const selectedDate = new Date(selectedRadio.value);
