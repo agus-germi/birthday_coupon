@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>🎁 ¡Feliz Cumple Lu!</title>
   <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script> <!--Para confetti-->
   <style>
     body {
       font-family: 'Bubblegum Sans', cursive;
@@ -341,6 +342,39 @@
     function showMainContent() {
         document.getElementById('welcome-page').style.display = 'none';
         document.getElementById('main-content').style.display = 'block';
+        
+        // Efecto de confetti
+        const duration = 3000;
+        const end = Date.now() + duration;
+
+        (function frame() {
+            confetti({
+                particleCount: 7,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0 },
+                colors: ['#429b50', '#8ab0fe', '#b9f5d2']
+            });
+            confetti({
+                particleCount: 7,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1 },
+                colors: ['#429b50', '#8ab0fe', '#b9f5d2']
+            });
+
+            if (Date.now() < end) {
+                requestAnimationFrame(frame);
+            }
+        }());
+
+        // Confetti en el centro
+        confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: ['#429b50', '#8ab0fe', '#b9f5d2']
+        });
     }
 
     // Control de música
@@ -379,6 +413,14 @@
             alert('Por favor seleccioná una fecha');
             return;
         }
+
+        // Lanzar confetti antes de abrir el email
+        confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: ['#429b50', '#8ab0fe', '#b9f5d2']
+        });
 
         const selectedDate = new Date(selectedRadio.value);
         const formattedDate = selectedDate.toLocaleDateString('es-AR', {
