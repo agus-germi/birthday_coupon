@@ -164,55 +164,40 @@
       display: none;
     }
 
-    .date-options {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
+    .date-picker {
       margin: 20px 0;
     }
 
-    .date-option {
-      cursor: pointer;
-    }
-
-    .date-option input[type="radio"] {
-      display: none;
-    }
-
-    .date-card {
-      display: block;
-      background: linear-gradient(45deg, #8ab0fe, #a4d8e0);
+    .date-input {
+      font-family: 'Bubblegum Sans', cursive;
+      font-size: 1.2em;
+      padding: 10px 20px;
       border: 2px solid #429b50;
       border-radius: 15px;
-      padding: 15px;
+      background: linear-gradient(45deg, #8ab0fe, #a4d8e0);
+      color: #4a4a4a;
+      cursor: pointer;
       transition: all 0.3s ease;
     }
 
-    .date-option input[type="radio"]:checked + .date-card {
-      background: linear-gradient(45deg,#429b50);
-      border-color: #a4d8e0;
-      color: white;
-      transform: scale(1.02);
+    .date-input:hover {
+      transform: translateY(-2px);
       box-shadow: 0 5px 15px rgba(236, 64, 122, 0.4);
     }
 
-    .date-card .day {
-      display: block;
-      font-size: 1.2em;
-      font-weight: bold;
-      margin-bottom: 5px;
+    .date-input:focus {
+      outline: none;
+      border-color: #8ab0fe;
+      box-shadow: 0 0 10px rgba(138, 176, 254, 0.5);
     }
 
-    .date-card .date {
-      display: block;
-      font-size: 1em;
-      margin-bottom: 5px;
-    }
-
-    .date-card .time {
-      display: block;
-      font-size: 0.9em;
-      opacity: 0.9;
+    /* Estilizar el calendario nativo */
+    .date-input::-webkit-calendar-picker-indicator {
+      background-color: #429b50;
+      padding: 5px;
+      cursor: pointer;
+      border-radius: 3px;
+      filter: invert(1);
     }
 
     .card::before,
@@ -287,31 +272,12 @@
     
       <div id="dateSelection" class="hidden">
           <p><strong>Elegí una fecha para la cena:</strong></p>
-          <div class="date-options">
-              <label class="date-option">
-                  <input type="radio" name="selectedDate" value="2025-04-13">
-                  <span class="date-card">
-                      <span class="day">Domingo</span>
-                      <span class="date">13 de Abril</span>
-                      <span class="time">20:00 hs</span>
-                  </span>
-              </label>
-              <label class="date-option">
-                  <input type="radio" name="selectedDate" value="2025-04-19">
-                  <span class="date-card">
-                      <span class="day">Sábado</span>
-                      <span class="date">19 de Abril</span>
-                      <span class="time">20:00 hs</span>
-                  </span>
-              </label>
-              <label class="date-option">
-                  <input type="radio" name="selectedDate" value="2025-04-20">
-                  <span class="date-card">
-                      <span class="day">Domingo</span>
-                      <span class="date">20 de Abril</span>
-                      <span class="time">20:00 hs</span>
-                  </span>
-              </label>
+          <div class="date-picker">
+              <input type="date" 
+                     id="selectedDate" 
+                     min="2025-04-12" 
+                     max="2025-05-12"
+                     class="date-input">
           </div>
           <button onclick="sendEmail()" class="btn">¡Confirmar Fecha! ✨</button>
       </div>
@@ -408,11 +374,19 @@
     }
 
     function sendEmail() {
-        const selectedRadio = document.querySelector('input[name="selectedDate"]:checked');
-        if (!selectedRadio) {
+        const dateInput = document.getElementById('selectedDate');
+        if (!dateInput.value) {
             alert('Por favor seleccioná una fecha');
             return;
         }
+
+        const selectedDate = new Date(dateInput.value);
+        const formattedDate = selectedDate.toLocaleDateString('es-AR', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
 
         // Lanzar confetti antes de abrir el email
         confetti({
@@ -422,17 +396,9 @@
             colors: ['#429b50', '#8ab0fe', '#b9f5d2']
         });
 
-        const selectedDate = new Date(selectedRadio.value);
-        const formattedDate = selectedDate.toLocaleDateString('es-AR', {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        });
-
         const emails = [
-            'agustina.germinario@gmail.com',
-            'agerminario@fi.uba.ar'
+            'Carolinamunozmosquera@gmail.com',
+            'agustina.germinario@gmail.com'
         ].join(',');
 
         const subject = '¡Fecha confirmada para la cena sorpresa! 🎉';
